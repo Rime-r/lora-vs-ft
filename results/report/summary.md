@@ -1,3 +1,5 @@
+## Classification
+
 | Stage | Model | Dataset | Data | Method | Rank | Test acc (%) | Macro-F1 (%) | Forgetting (pts) | Forgetting, BN stats restored (pts) | Trainable (%) | Peak mem (GB) | Time/epoch (s) | Seeds |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | main | resnet50 | eurosat | 1% | Linear probe | – | 87.1 ± 0.8 | 86.4 ± 0.7 | 0.00 ± 0.00 | – | 0.09 | 0.83 | – | 3 |
@@ -22,3 +24,14 @@
 | rank | vit_base_patch16_224 | flowers102 | 100% | LoRA | 4 | 99.1 ± 0.1 | 99.0 ± 0.1 | 1.23 ± 0.13 | – | 0.35 | 4.23 | 3.2 | 3 |
 | rank | vit_base_patch16_224 | flowers102 | 100% | LoRA | 16 | 99.2 ± 0.1 | 99.1 ± 0.2 | 1.77 ± 0.33 | – | 1.12 | 4.25 | 3.2 | 3 |
 | rank | vit_base_patch16_224 | flowers102 | 100% | LoRA | 64 | 99.0 ± 0.1 | 98.9 ± 0.2 | 2.67 ± 0.26 | – | 4.21 | 4.32 | 3.2 | 3 |
+
+## Detection
+
+| Model | Data | Method | VOC mAP (%) | VOC mAP@0.5 (%) | COCO forgetting (mAP pts) | Trainable (%) | Peak mem (GB) | Time/epoch (s) | Seeds |
+|---|---|---|---|---|---|---|---|---|---|
+| PekingU/rtdetr_r18vd | 10% | Head only | 68.9 ± 0.4 | 88.5 ± 0.4 | -0.00 ± 0.00 | 0.13 | 9.73 | 10.2 | 2 |
+| PekingU/rtdetr_r18vd | 10% | LoRA | 67.9 ± 0.9 | 87.4 ± 0.6 | 4.29 ± 0.16 | 2.58 | 10.56 | 15.0 | 2 |
+| PekingU/rtdetr_r18vd | 10% | Full fine-tuning | 64.7 ± 0.3 | 85.4 ± 0.0 | 14.63 ± 0.22 | 100.00 | 11.57 | 15.6 | 2 |
+| PekingU/rtdetr_r18vd | 100% | Head only | 69.7 ± 0.3 | 89.1 ± 0.4 | -0.01 ± 0.00 | 0.13 | 9.73 | 80.4 | 2 |
+| PekingU/rtdetr_r18vd | 100% | LoRA | 71.0 ± 0.2 | 89.1 ± 0.0 | 7.55 ± 1.14 | 2.58 | 10.56 | 111.1 | 2 |
+| PekingU/rtdetr_r18vd | 100% | Full fine-tuning | 70.3 ± 0.2 | 89.5 ± 0.4 | 15.53 ± 1.09 | 100.00 | 11.57 | 173.4 | 2 |

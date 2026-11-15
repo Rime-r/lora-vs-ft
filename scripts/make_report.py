@@ -134,10 +134,68 @@ def plot_rank(df, out_dir):
     plt.close(fig)
 
 
+DET_METHOD_ORDER = ["head", "lora", "full"]
+DET_METHOD_NAME = {"head": "Head only", "lora": "LoRA", "full": "Full fine-tuning"}
+DET_COLORS = {"head": COLORS["linear"], "lora": COLORS["lora"], "full": COLORS["full"]}
+
+
+def det_markdown(df):
+    keys = ["model", "fraction", "method"]
+    metrics = ["test_map", "test_map50", "forgetting", "trainable_pct", "peak_mem_gb", "epoch_time_s"]
+    g = df.groupby(keys)[metrics].agg(["mean", "std"])
+    g["seeds"] = df.groupby(keys).size()
+    g = g.reset_index()
+    order = {m: i for i, m in enumerate(DET_METHOD_ORDER)}
+    g = g.sort_values(by=[("model", ""), ("fraction", ""), ("method", "")],
+                      key=lambda c: c.map(order) if c.name == ("method", "") else c)
+    lines = ["| Model | Data | Method | VOC mAP (%) | VOC mAP@0.5 (%) | COCO forgetting (mAP pts) "
+             "| Trainable (%) | Peak mem (GB) | Time/epoch (s) | Seeds |", "|" + "---|" * 10]
+    for _, r in g.iterrows():
+        lines.append("| " + " | ".join([
+            str(r[("model", "")]), f"{r[('fraction', '')] * 100:g}%",
+            DET_METHOD_NAME.get(r[("method", "")], r[("method", "")]),
+            pm(r[("test_map", "mean")], r[("test_map", "std")], 100),
+            pm(r[("test_map50", "mean")], r[("test_map50", "std")], 100),
+            pm(r[("forgetting", "mean")], r[("forgetting", "std")], 100, 2),
+            pm(r[("trainable_pct", "mean")], np.nan, 1, 2),
+            pm(r[("peak_mem_gb", "mean")], np.nan, 1, 2),
+            pm(r[("epoch_time_s", "mean")], np.nan, 1, 1),
+            str(int(r[("seeds", "")])),
+        ]) + " |")
+    return "\n".join(lines)
+
+
+def plot_det(df, out_dir):
+    d = df[df["forgetting"].notna()]
+    if d.empty:
+        return
+    fracs = sorted(d.fraction.unique())
+    fig, axes = plt.subplots(1, len(fracs), figsize=(4.4 * len(fracs), 3.8), squeeze=False)
+    for ax, fr in zip(axes[0], fracs):
+        for m in DET_METHOD_ORDER:
+            x = d[(d.fraction == fr) & (d.method == m)]
+            if x.empty:
+                continue
+            ax.errorbar(x.test_map.mean() * 100, x.forgetting.mean() * 100,
+                        xerr=x.test_map.std() * 100 if len(x) > 1 else None,
+                        yerr=x.forgetting.std() * 100 if len(x) > 1 else None,
+                        fmt="o", color=DET_COLORS[m], label=DET_METHOD_NAME[m], capsize=3, ms=7)
+        ax.axhline(0, color="#cccccc", lw=1)
+        ax.set_title(f"VOC 2007, {fr * 100:g}% data")
+        ax.set_xlabel("VOC test mAP@[.5:.95] (%)")
+        ax.set_ylabel("COCO forgetting (mAP pts)")
+    axes[0][0].legend(frameon=False)
+    fig.suptitle("RT-DETR: detection accuracy vs forgetting")
+    fig.tight_layout()
+    fig.savefig(os.path.join(out_dir, "det_forgetting_vs_map.png"), dpi=150)
+    plt.close(fig)
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--results", default="results/results.csv")
     p.add_argument("--out-dir", default="results/report")
+    p.add_argument("--det-results", default="results/det_results.csv")
     p.add_argument("--include-dry-run", action="store_true")
     a = p.parse_args()
     os.makedirs(a.out_dir, exist_ok=True)
@@ -146,13 +204,22 @@ def main():
         df = df[df["dry_run"].astype(str) != "True"]
     if df.empty:
         raise SystemExit("no (non-dry-run) results yet")
-    md = to_markdown(summarize(df))
+    md = "## Classification\n\n" + to_markdown(summarize(df))
+    det = None
+    if os.path.exists(a.det_results):
+        det = pd.read_csv(a.det_results)
+        if not a.include_dry_run:
+            det = det[det["dry_run"].astype(str) != "True"]
+        if not det.empty:
+            md += "\n\n## Detection\n\n" + det_markdown(det)
     with open(os.path.join(a.out_dir, "summary.md"), "w", encoding="utf-8") as f:
         f.write(md + "\n")
     print(md)
     plot_forgetting(df, a.out_dir)
     plot_data_size(df, a.out_dir)
     plot_rank(df, a.out_dir)
+    if det is not None and not det.empty:
+        plot_det(det, a.out_dir)
     print(f"\nplots and summary.md written to {a.out_dir}")
 
 

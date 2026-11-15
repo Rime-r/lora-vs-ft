@@ -1,0 +1,5 @@
+{
+ "PekingU/rtdetr_r18vd|full": 0.0001,
+ "PekingU/rtdetr_r18vd|head": 0.003,
+ "PekingU/rtdetr_r18vd|lora": 0.001
+}
