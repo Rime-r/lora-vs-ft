@@ -1,4 +1,4 @@
-# LoRA vs full fine-tuning: 48-hour classification study
+# LoRA vs full fine-tuning:
 
 Three scripts:
 
