@@ -1,0 +1,14 @@
+{
+ "vit_base_patch16_224|flowers102|1.0|linear": 0.003,
+ "vit_base_patch16_224|flowers102|1.0|lora": 0.0003,
+ "vit_base_patch16_224|flowers102|1.0|full": 3e-05,
+ "vit_base_patch16_224|eurosat|0.01|linear": 0.003,
+ "vit_base_patch16_224|eurosat|0.01|lora": 0.0003,
+ "vit_base_patch16_224|eurosat|0.01|full": 1e-05,
+ "resnet50|flowers102|1.0|linear": 0.01,
+ "resnet50|flowers102|1.0|lora": 0.01,
+ "resnet50|flowers102|1.0|full": 0.001,
+ "resnet50|eurosat|0.01|linear": 0.01,
+ "resnet50|eurosat|0.01|lora": 0.001,
+ "resnet50|eurosat|0.01|full": 0.001
+}

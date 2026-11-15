@@ -1,0 +1,4 @@
+{
+ "vit_base_patch16_224|D:\\projeler\\lora-vs-ft\\data\\imagenetv2-matched-frequency-format-val|10000|dryFalse": 0.7526,
+ "resnet50|D:\\projeler\\lora-vs-ft\\data\\imagenetv2-matched-frequency-format-val|10000|dryFalse": 0.6891
+}
