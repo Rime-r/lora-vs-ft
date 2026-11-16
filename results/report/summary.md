@@ -29,9 +29,9 @@
 
 | Model | Data | Method | VOC mAP (%) | VOC mAP@0.5 (%) | COCO forgetting (mAP pts) | Trainable (%) | Peak mem (GB) | Time/epoch (s) | Seeds |
 |---|---|---|---|---|---|---|---|---|---|
-| PekingU/rtdetr_r18vd | 10% | Head only | 68.9 ± 0.4 | 88.5 ± 0.4 | -0.00 ± 0.00 | 0.13 | 9.73 | 10.2 | 2 |
-| PekingU/rtdetr_r18vd | 10% | LoRA | 67.9 ± 0.9 | 87.4 ± 0.6 | 4.29 ± 0.16 | 2.58 | 10.56 | 15.0 | 2 |
-| PekingU/rtdetr_r18vd | 10% | Full fine-tuning | 64.7 ± 0.3 | 85.4 ± 0.0 | 14.63 ± 0.22 | 100.00 | 11.57 | 15.6 | 2 |
-| PekingU/rtdetr_r18vd | 100% | Head only | 69.7 ± 0.3 | 89.1 ± 0.4 | -0.01 ± 0.00 | 0.13 | 9.73 | 80.4 | 2 |
-| PekingU/rtdetr_r18vd | 100% | LoRA | 71.0 ± 0.2 | 89.1 ± 0.0 | 7.55 ± 1.14 | 2.58 | 10.56 | 111.1 | 2 |
-| PekingU/rtdetr_r18vd | 100% | Full fine-tuning | 70.3 ± 0.2 | 89.5 ± 0.4 | 15.53 ± 1.09 | 100.00 | 11.57 | 173.4 | 2 |
+| PekingU/rtdetr_r18vd | 10% | Head only | 68.9 ± 0.2 | 88.4 ± 0.3 | -0.00 ± 0.00 | 0.13 | 9.73 | 9.9 | 3 |
+| PekingU/rtdetr_r18vd | 10% | LoRA | 67.9 ± 0.6 | 87.4 ± 0.4 | 4.64 ± 0.60 | 2.58 | 10.56 | 14.6 | 3 |
+| PekingU/rtdetr_r18vd | 10% | Full fine-tuning | 64.5 ± 0.4 | 85.3 ± 0.3 | 14.94 ± 0.55 | 100.00 | 11.57 | 15.3 | 3 |
+| PekingU/rtdetr_r18vd | 100% | Head only | 69.8 ± 0.3 | 89.2 ± 0.3 | -0.01 ± 0.00 | 0.13 | 9.73 | 86.8 | 3 |
+| PekingU/rtdetr_r18vd | 100% | LoRA | 71.1 ± 0.3 | 89.1 ± 0.0 | 7.98 ± 1.10 | 2.58 | 10.56 | 123.5 | 3 |
+| PekingU/rtdetr_r18vd | 100% | Full fine-tuning | 70.1 ± 0.4 | 89.4 ± 0.4 | 15.32 ± 0.85 | 100.00 | 11.57 | 169.0 | 3 |
